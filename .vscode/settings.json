@@ -1,0 +1,4 @@
+{
+    "rust-analyzer.raLspServerPath": "/home/bender/.cargo/bin/ra_lsp_server",
+    
+}

@@ -68,7 +68,7 @@ impl AppSearchResults {
     pub fn binaries(&self) -> &[lib::Binary; 5] {
         &self.binary_results
     }
-    pub fn search(&mut self, query: &str) {
+    pub fn search(&mut self, query: &str)  {
         self.binary_results = Self::get_binaries(query);
     }
 }
@@ -96,8 +96,7 @@ fn build_ui(app: &gtk::Application) {
             Some(input) => input.as_str().to_owned(),
             None => "".to_owned(),
         };
-        search_clone.borrow_mut().search(&query);
-        let mut binaries = search_clone.borrow().binaries().clone();
+        let mut binaries = search_clone.borrow_mut().search(&query).binaries().clone();
         let mut binary_iter = binaries.iter_mut();
         widgets_clone.borrow_mut().iter_mut().for_each(|widget| {
             let name = match binary_iter.next() {
@@ -107,10 +106,6 @@ fn build_ui(app: &gtk::Application) {
             widget.set_text(&name);
         });
         eprintln!("{:?}", &query);
-    });
-    let search_clone2 = search.clone();
-    entry.connect_activate(move |entry| {
-        search_clone2.borrow().binaries()[0].run().unwrap();
     });
     window.add(&gtk_grid);
     window.show_all();

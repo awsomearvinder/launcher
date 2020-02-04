@@ -34,6 +34,7 @@ impl AppSearchResults {
                     std::process::exit(1);
                 },
             )));
+            labels[i].set_halign(gtk::Align::Start);
         }
         labels
     }
@@ -87,8 +88,15 @@ fn build_ui(app: &gtk::Application) {
     let search = std::rc::Rc::new(std::cell::RefCell::new(AppSearchResults::new("")));
     let entry = gtk::Entry::new();
     let widgets = std::rc::Rc::new(std::cell::RefCell::new(search.borrow().widgets()));
-    widgets.borrow().iter().for_each(|item| gtk_grid.add(item));
-    gtk_grid.add(&entry);
+    gtk_grid.set_column_homogeneous(true);
+    gtk_grid.set_row_homogeneous(true);
+    gtk_grid.set_row_spacing(1);
+    gtk_grid.attach(&entry, 0, 0, 1, 3);
+    widgets
+        .borrow()
+        .iter()
+        .enumerate()
+        .for_each(|(i, item)| gtk_grid.attach(item, 0, (i as i32 + 1) * 3, 1, 3));
     let search_clone = search.clone();
     let widgets_clone = widgets.clone();
     entry.connect_changed(move |entry| {

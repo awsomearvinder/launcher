@@ -311,6 +311,7 @@ dependencies = [
 name = "launcher"
 version = "0.1.0"
 dependencies = [
+ "gdk",
  "gio",
  "gtk",
 ]
